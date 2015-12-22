@@ -1,6 +1,8 @@
-title: Hello Website
+.model: page
+
+title: The making of one small project!
 ---
-pub_date: 2015-12-21
+pub_date: 2015-12-22
 ---
 author: Shipeng Feng
 ---

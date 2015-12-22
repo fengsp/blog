@@ -4,3 +4,6 @@ url = http://fengsp.github.io/
 
 [servers.ghpages]
 target = ghpages://fengsp/fengsp.github.io
+
+[packages]
+lektor-webpack-support = 0.1

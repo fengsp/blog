@@ -1,3 +1,6 @@
 [project]
 name = Shipeng Feng's Writings
 url = http://fengsp.github.io/
+
+[servers.ghpages]
+target = ghpages://fengsp/fengsp.github.io

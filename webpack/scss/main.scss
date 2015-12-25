@@ -7,6 +7,15 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
 
 .container {
-  margin-top: 50px;
+  margin: 50px auto;
   padding: 0 40px;
+}
+
+footer {
+  text-align: right;
+  margin-top: 50px;
+}
+
+footer p {
+  margin: 0;
 }

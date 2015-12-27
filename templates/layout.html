@@ -10,16 +10,14 @@
   <body>
     <div class="container">
       <div class="nav">
-        <ul class="list-inline">
-          <li{% if this._path == '/' %} class="active"{% endif %}><a href="{{ '/'|url }}">Welcome</a></li>
-          {% for href, title in [
-            ['/blog', 'Blog'],
-            ['/projects', 'Projects'],
-            ['/about', 'About']
-          ] %}
-            <li{% if this.is_child_of(href) %} class="active"{% endif %}><a href="{{ href|url }}">{{ title }}</a></li>
-          {% endfor %}
-        </ul>
+        <a href="{{ '/'|url }}" {% if this._path == '/' %} class="active"{% endif %}>Welcome</a>
+        {% for href, title in [
+          ['/blog', 'Blog'],
+          ['/projects', 'Projects'],
+          ['/about', 'About']
+        ] %}
+          <a href="{{ href|url }}" {% if this.is_child_of(href) %} class="active"{% endif %}>{{ title }}</a>
+        {% endfor %}
       </div>
 
       {% block body %}{% endblock %}

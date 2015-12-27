@@ -11,6 +11,27 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
   padding: 0 40px;
 }
 
+.nav {
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.nav a {
+  margin: 0 2px;
+  padding: 2px 6px;
+  background: #000000;
+  font-size: 20px;
+  color: #ffffff;
+  text-decoration: none;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.nav a:hover {
+  color: #000000;
+  background: #ffffff;
+}
+
 footer {
   text-align: right;
   margin-top: 50px;

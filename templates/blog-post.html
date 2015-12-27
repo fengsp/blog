@@ -15,6 +15,7 @@
     </p>
     {{ this.body }}
     <div class="post-tags">
+      <span>tags:</span>
       {% for tag in this.tags.split(',') %}
         <a href="">{{ tag }}</a>
       {% endfor %}

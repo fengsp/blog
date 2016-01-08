@@ -7,3 +7,4 @@ target = ghpages://fengsp/fengsp.github.io
 
 [packages]
 lektor-webpack-support = 0.1
+lektor-markdown-highlighter = 0.1

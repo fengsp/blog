@@ -2,7 +2,8 @@
 
 @import url(http://fonts.googleapis.com/css?family=Arvo:700|Open+Sans:400italic,400);
 
-$container-large-desktop: 900px;
+$container-desktop: 880px;
+$container-large-desktop: 880px;
 $font-size-base: 17px;
 
 $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
@@ -32,6 +33,16 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 .nav a:hover {
   color: #000000;
   background: #ffffff;
+}
+
+pre, code {
+  font-size: 0.8em;
+}
+
+pre {
+  border: none;
+  border-radius: 0;
+  padding: 15px 20px;
 }
 
 footer {

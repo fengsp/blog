@@ -1,0 +1,106 @@
+title: Ownership in Python
+---
+pub_date: 2016-1-9
+---
+author: Shipeng Feng
+---
+twitter_handle: _fengsp
+---
+summary:
+
+What is Ownership in Python? How reference counting is used for memory
+management in Python.
+---
+body:
+
+In C or C++, we are responsible for the allocation and deallocation of memory.
+Every piece of momory allocated should eventually be freed, otherwise we have
+a memory leak.  It is really hard to prevent leaks from happening by manual
+management.
+
+In Python, we use reference counting as the strategy to avoid memory leaks.
+The idea is simple: everything is one object and every object has a counter,
+which keeps the total number of references to this object.  When the counter
+drops to 0, the object should be freed, the operation is also safe because
+we know it is used in nowhere.
+
+What interests me most is how does this happen under the hood.  After some
+exploration, I think I have something here and want to share it with you.
+
+In CPython, two macros called `Py_INCREF(x)` and `Py_DECREF(x)` are used to
+handle the increment and decrement of the reference count.  There are a few
+questions though, when should we use them and how are they used in CPython
+implementation?
+
+We should use `Py_INCREF(x)` when we need ownership of an object.  What is
+ownership, if you want to use one object, you have to own it, otherwise it
+might be taken away from you by others, in our case, you have to inform the
+garbage collector that you are using the object, or gc might free it.  However
+it is totally free for you to **borrow** one object, if you are 100% sure
+the owners hold on to the object longer than you.  **The ownership in Python
+means you keep a reference to one object.**  All owners of one object should
+call `Py_DECREF(x)` after they finish using the object, otherwise a memory
+leak is created.  Here is one simple example:
+
+```python
+def hello():
+    s = 'hi'  # s keeps a reference to 'hi' and have ownership
+    print s   # use 'hi' for something
+hello()       # s finishes and decreases the reference count
+```
+
+It is also possible to transfer the ownership to others, never heard of it?
+Trust me, it happens everywhere, everytime we create a new object, we need to
+pass ownership to the receiver:
+
+```python
+foo = (a, b)  # we need the bytecode of it
+
+0 LOAD_NAME                0 (a)
+3 LOAD_NAME                1 (b)
+6 BUILD_TUPLE              2
+9 STORE_NAME               2 (foo)
+```
+
+In the above example, we can see that `foo` have ownership on a tuple object
+in the end, however, the `Py_INCREF(x)` was called when *BUILD_TUPLE* was
+executed, during the *BUILD_TUPLE* execution, `PyTuple_New` is called and it
+create a new tuple object, the object leaves the `PyTuple_New` function call
+and `Py_DECREF(x)` is not called, afterwards, the ownership is passed to
+Python Virtual Machine data stack, the VM passes it to the `foo` variable.
+
+What if I write code like this:
+
+```python
+(a, b)  # no final receiver for the ownership
+
+6 BUILD_TUPLE
+9 POP_TOP
+```
+
+The compiler is smart enough to catch that, the ownership is passed to
+Python Virtual Machine data stack, during *POP_TOP* execution, the `Py_DECREF`
+is called.
+
+So far, everything is simple, we want to use one object, we just keep a
+reference to it, we finish using it, we `Py_DECREF` it or pass the ownership
+to others.  What about functions?  How to make sure everything works right
+for a returned value from function?  If you are calling a normal Python
+function, the returned object will pass its ownership to the receiver.  The
+Python itself makes sure that all returned object has the ownership.  Things
+get a little uncertain if you call a C function from Python, in order to make
+things work right, as a Python C Extension developer, you have to return
+an object that has its ownership:
+
+```c
+static PyObject *
+get_first_item(PyObject *list)
+{
+    PyObject *item = PyList_GetItem(list, 0);  /* do not have ownership */
+    Py_INCREF(item);  /* get ownership */
+    return item;  /* safe to return */
+}
+```
+
+---
+tags: python,ownership

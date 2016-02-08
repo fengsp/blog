@@ -14,7 +14,7 @@ management in Python.
 body:
 
 In C or C++, we are responsible for the allocation and deallocation of memory.
-Every piece of momory allocated should eventually be freed, otherwise we have
+Every piece of memory allocated should eventually be freed, otherwise we have
 a memory leak.  It is really hard to prevent leaks from happening by manual
 management.
 

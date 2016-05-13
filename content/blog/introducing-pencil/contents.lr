@@ -40,7 +40,7 @@ fn user(r: &mut Request) -> PencilResult {
 
 fn main() {
     // app here
-    app.get("/user/<int:user_id>", "user", user);
+    app.get("/user/<user_id:int>", "user", user);
 }
 ```
 

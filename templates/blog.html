@@ -4,7 +4,7 @@
 {% block body %}
   {% for post in this.pagination.items %}
   <div class="blog-entry">
-    <h2><a href="{{ post|url }}">{{ post.title }}</a></h2>
+    <h3><a href="{{ post|url }}">{{ post.title }}</a></h3>
     <p class="blog-entry-summary">
       {{ post.summary }}
       <a class="blog-entry-more" href="{{ post|url }}">Read more...</a>

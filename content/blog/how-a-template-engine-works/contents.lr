@@ -116,6 +116,7 @@ def _execute():
     for job in jobs:
         _buffer.append('\n      <li>')
         _tmp = job.name
+        # simplified, several checks should be done on _tmp here
         _buffer.append(str(_tmp))
         _buffer.append('</li>\n    ')
     _buffer.append('\n  </ul>\n</html>\n')

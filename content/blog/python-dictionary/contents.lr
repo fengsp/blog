@@ -104,15 +104,22 @@ end up with linear pile-up, that causes poor performance because we need to scan
 slots everytime we look up a key, in real life, CPython use the following algorithm:
 
 ```python
+DUMMY = 'dummy'
+
 # I am not clever enough to understand how the algorithm is came up with,
 # this eventually covers every integer between 0 and ma_mask.
 def open_addressing_in_cpython(table, key, hash):
+    free_slot = None
     perturb = hash
     i = slot_index = hash & ma_mask
     while table[slot_index] is not None and table[slot_index].key != key:
+        if table[slot_index].key is DUMMY and free_slot is None:
+            free_slot = slot_index
         i = (5 * i + perturb + 1)
         slot_index = i & ma_mask
         perturb >>= 5
+    if table[slot_index] is None and free_slot is not None:
+        return free_slot
     return slot_index
 ```
 

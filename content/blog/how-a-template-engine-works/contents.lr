@@ -234,7 +234,7 @@ class _CodeWriter(object):
             indent = self._indent
         for i in xrange(indent):
             self.buffer.write("    ")
-        print self.buffer, line
+        print >> self.buffer, line
 
     def __str__(self):
         return self.buffer.getvalue()

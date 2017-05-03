@@ -13,7 +13,7 @@ Dictionary is a really useful data type built into Python, how does it work?
 body:
 
 Dictionary is a really useful data type built into Python, basically it is a number
-of objects that are indexed by keys, the key here must be immutable.  Here is one
+of objects that are indexed by keys, the key here must be hashable.  Here is one
 simple dictionary usage:
 
 ```python
